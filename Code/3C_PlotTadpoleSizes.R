@@ -9,7 +9,7 @@ graphics.off()
 
 #library(viridis)
 library(tidyverse)
-install.packages("stringr")          # Install stringr package
+#install.packages("stringr")          # Install stringr package
 library("stringr")  
 multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
   library(grid)
@@ -77,13 +77,13 @@ plotB <- ggplot(data = df,aes(x = SubTreat, y = TotLength, fill = SubTreat))+
   ggtitle("(b)")+
   ylim(0, 8.6)+
   #scale_y_continuous(breaks = round(seq(min(0), max(100), by = 20),1), limits=c(0,10))+
-  annotate("text", x = c(1, 2, 3, 4), y=8.6, label = c("*", "^", "^", "^"), size=6)+
-  annotate("text", x = c(2.5), y=2.5, label = c("72 HPO - 84 HPO, z = 4.46, p < 0.01"), size=2.8)+
-  annotate("text", x = c(2.5), y=2, label = c("72 HPO - 96 HPO, z = 5.31, p < 0.01"), size=2.8)+
-  annotate("text", x = c(2.5), y=1.5, label = c("72 HPO - Control, z = -3.78, p < 0.01"), size=2.8)+
-  annotate("text", x = c(2.5), y=1, label = c("84 HPO - 96 HPO, z = 0.61, p = 0.93"), size=2.8)+
-  annotate("text", x = c(2.5), y=0.5, label = c("84 HPO - Control, z = 1.02, p = 0.74"), size=2.8)+
-  annotate("text", x = c(2.5), y=0, label = c("96 HPO - Control, z = 1.73, p = 0.31"), size=2.8)
+  annotate("text", x = c(1, 2, 3, 4), y=8.6, label = c("*", "^", "^", "^"), size=6)
+#  annotate("text", x = c(2.5), y=2.5, label = c("72 HPO - 84 HPO, z = 4.46, p < 0.01"), size=2.8)+
+#  annotate("text", x = c(2.5), y=2, label = c("72 HPO - 96 HPO, z = 5.31, p < 0.01"), size=2.8)+
+#  annotate("text", x = c(2.5), y=1.5, label = c("72 HPO - Control, z = -3.78, p < 0.01"), size=2.8)+
+#  annotate("text", x = c(2.5), y=1, label = c("84 HPO - 96 HPO, z = 0.61, p = 0.93"), size=2.8)+
+#  annotate("text", x = c(2.5), y=0.5, label = c("84 HPO - Control, z = 1.02, p = 0.74"), size=2.8)+
+#  annotate("text", x = c(2.5), y=0, label = c("96 HPO - Control, z = 1.73, p = 0.31"), size=2.8)
 
 
 plotB
@@ -114,12 +114,13 @@ plotA <- ggplot(data = df2,aes(x = SubTreat, y = TotLength, fill = SubTreat))+
         panel.grid.minor =  element_blank())+
   ggtitle("(a)")+
   ylim(0, 8.6)+
+  annotate("text", x = c(1, 2, 3), y=8.6, label = c("*", "^", "~"), size=6)
+  
   #scale_y_continuous(breaks = round(seq(min(0), max(100), by = 20),1), limits=c(0,10))+
   #annotate("text", x = c(1, 2, 3), y=8.5, label = c("(a)", "(b)", "(c)"))
-annotate("text", x = c(1, 2, 3), y=8.6, label = c("*", "^", "~"), size=6) +
-  annotate("text", x = c(2), y=2.5, label = c("72 HPO - 84 HPO, z = 6.26, p < 0.01"), size=2.8)+
-  annotate("text", x = c(2), y=2, label = c("72 HPO - 96 HPO, z = 12.69, p < 0.01"), size=2.8)+
-annotate("text", x = c(2), y=1.5, label = c("84 HPO - 96 HPO, z = 6.78, p < 0.01"), size=2.8)
+#  annotate("text", x = c(2), y=2.5, label = c("72 HPO - 84 HPO, z = 6.26, p < 0.01"), size=2.8)+
+#  annotate("text", x = c(2), y=2, label = c("72 HPO - 96 HPO, z = 12.69, p < 0.01"), size=2.8)+
+#annotate("text", x = c(2), y=1.5, label = c("84 HPO - 96 HPO, z = 6.78, p < 0.01"), size=2.8)
 
 setwd("~/Dropbox/EmergenceHatching/Figures")
 png("TadpoleLengths_Fig3.png", units="in", width=5, height=4.7, res=600)

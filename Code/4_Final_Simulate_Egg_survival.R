@@ -276,8 +276,8 @@ for (i in c(0, 12, 24, 36, 48, 60, 72, 84, 96, 108, 120)) {
   MeanSurv <- mean(subset$V1)
   SD <- sd(subset$V1)
   SE <- SD / sqrt(999)
-  UpperCI <- MeanSurv + qt((1-0.95)/2, 999) * SE
-  LowerCI <- MeanSurv - qt((1-0.95)/2, 999) * SE
+  UpperCI <- MeanSurv + qt((1-0.95)/2, 999, lower.tail = F) * SE
+  LowerCI <- MeanSurv - qt((1-0.95)/2, 999, lower.tail = F) * SE
   row <- cbind(i, "No", MeanSurv, SD, SE, UpperCI, LowerCI)
   row <- as.data.frame(row)
   summaries <- rbind(summaries, row)
@@ -290,8 +290,8 @@ for (i in c(0, 12, 24, 36, 48, 60, 72, 84, 96, 108, 120)) {
   MeanSurv <- mean(subset$V1)
   SD <- sd(subset$V1)
   SE <- SD / sqrt(999)
-  UpperCI <- MeanSurv + qt((1-0.95)/2, 999) * SE
-  LowerCI <- MeanSurv - qt((1-0.95)/2, 999) * SE
+  UpperCI <- MeanSurv + qt((1-0.95)/2, 999,lower.tail = F) * SE
+  LowerCI <- MeanSurv - qt((1-0.95)/2, 999, lower.tail = F) * SE
   row <- cbind(i, "Yes", MeanSurv, SD, SE, UpperCI, LowerCI)
   row <- as.data.frame(row)
   summaries <- rbind(summaries, row)
