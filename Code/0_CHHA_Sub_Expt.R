@@ -1,72 +1,96 @@
 ############################################
 # CHHA Sumbergence-induced hatching 2013
+##Code written by S. Poo##################
 ############################################ 
 library(multcomp)
 library("glmmTMB")
+library("car", lib.loc="~/R/win-library/3.6")
 stderr <- function(x) sqrt(var(x,na.rm=TRUE)/length(na.omit(x)))
 
 
-
 #---------------------------------------------------------------------------------------
-# I. Hatching Success: Percent of Clutch Hatched After Submergence 
+# I. Hatching Success: Percent of Clutch Hatched After Submergence (48-96 HPO)
 #---------------------------------------------------------------------------------------
 
-Hatch_72to96 <- read.csv("C:/Dropbox/NUS/Working file/CHHA Submergence hatching/2022 CHHA Data & Analyses/CHHA Percent Hatched (72-96HPO) 2022.01.30.csv", header=T)
-summary (Hatch_72to96)
+Hatch_48to96 <- read.csv("C:/Dropbox/NUS/Working file/CHHA Submergence hatching/2022 CHHA Data & Analyses/CHHA Percent Hatched (All) 2022.08.20.csv", header=T)
+summary (Hatch_48to96)
+
 
 ############################################
 # Summary Stats  
 ############################################
 
 # Survival 1 hr post-submergene 
-aggregate(Hatch_72to96[,"PercentTotSurvive1HR"], 
-          by=list(Hatch_72to96$Treatment), mean, na.rm=TRUE)
-aggregate(Hatch_72to96[,"PercentTotSurvive1HR"], 
-          by=list(Hatch_72to96$Treatment), stderr)
+aggregate(Hatch_48to96[,"PercentTotSurvive1HR"], 
+          by=list(Hatch_48to96$Treatment), mean, na.rm=TRUE)
+aggregate(Hatch_48to96[,"PercentTotSurvive1HR"], 
+          by=list(Hatch_48to96$Treatment), stderr)
 
-# Survival 24 hrs post-submergence 
-aggregate(Hatch_72to96[,"PercentTotSurvive"], 
-          by=list(Hatch_72to96$Treatment), mean, na.rm=TRUE)
-aggregate(Hatch_72to96[,"PercentTotSurvive"], 
-          by=list(Hatch_72to96$Treatment), stderr)
+# Survival 24 hrs post-submergence  
+aggregate(Hatch_48to96[,"PercentTotSurvive"], 
+          by=list(Hatch_48to96$Treatment), mean, na.rm=TRUE)
+aggregate(Hatch_48to96[,"PercentTotSurvive"], 
+          by=list(Hatch_48to96$Treatment), stderr)
 
 ############################################
 # GLM: Percent Hatch ~ Submergence Time
 ############################################
 # Survival 1 hr post-submergene 
 
-Hatch_72to96$Survive_1hr_Yes <- round(Hatch_72to96$PercentTotSurvive1HR)
-Hatch_72to96$Survive_1hr_No <- 100-Hatch_72to96$Survive_1hr_Yes
+Hatch_48to96$Survive_1hr_Yes <- round(Hatch_48to96$PercentTotSurvive1HR)
+Hatch_48to96$Survive_1hr_No <- 100-Hatch_48to96$Survive_1hr_Yes
 
-mod1 <- glm(cbind(round(Survive_1hr_Yes), round(Survive_1hr_No)) ~ Treatment, family=quasibinomial, data=Hatch_72to96)
-summary(mod1)
+mod1_48to96 <- glm(cbind(round(Survive_1hr_Yes), round(Survive_1hr_No)) ~ Treatment, family=quasibinomial, data=Hatch_48to96)
+summary(mod1_48to96)
+anova(mod1_48to96,test="F") 
 
-summary(  glht(mod1, linfct = mcp(Treatment = "Tukey"))  )
+#           Df Deviance Resid. Df Resid. Dev     F    Pr(>F)    
+# NULL                         28     2351.3                    
+# Treatment  4   1631.2        24      720.1 12.96 9.283e-06 ***
+  
+
+summary(  glht(mod1_48to96, linfct = mcp(Treatment = "Tukey"))  )
 
 #                      Estimate Std. Error z value Pr(>|z|)  
-#   SUB-84 - SUB-72 == 0   2.5850     1.0295   2.511   0.0321 *
-#   SUB-96 - SUB-72 == 0   2.7151     1.0013   2.711   0.0184 *
-#   SUB-96 - SUB-84 == 0   0.1301     0.9369   0.139   0.9894  
+# SUB-84 - SUB-48 == 0 2.109e+01  3.916e+03   0.005  1.00000   
+# SUB-96 - SUB-48 == 0 2.122e+01  3.916e+03   0.005  1.00000   
+# SUB-72 - SUB-60 == 0 1.851e+01  3.574e+03   0.005  1.00000   
+# SUB-84 - SUB-60 == 0 2.109e+01  3.574e+03   0.006  1.00000   
+# SUB-96 - SUB-60 == 0 2.122e+01  3.574e+03   0.006  1.00000   
+# SUB-84 - SUB-72 == 0 2.585e+00  8.139e-01   3.176  0.00824 **
+# SUB-96 - SUB-72 == 0 2.715e+00  7.916e-01   3.430  0.00339 **
+# SUB-96 - SUB-84 == 0 1.301e-01  7.407e-01   0.176  0.99970   
+
 
 #####
 # Survival 24 hrs post-submergence 
 
-Hatch_72to96$Survive_24hr_Yes <- round(Hatch_72to96$PercentTotSurvive)
-Hatch_72to96$Survive_24hr_No <- 100-Hatch_72to96$Survive_24hr_Yes
+Hatch_48to96$Survive_24hr_Yes <- round(Hatch_48to96$PercentTotSurvive)
+Hatch_48to96$Survive_24hr_No <- 100-Hatch_48to96$Survive_24hr_Yes
 
-mod2 <- glm(cbind(round(Survive_24hr_Yes), round(Survive_24hr_No)) ~ Treatment, family=quasibinomial, data=Hatch_72to96)
-summary(mod2)
+mod2_48to96 <- glm(cbind(round(Survive_24hr_Yes), round(Survive_24hr_No)) ~ Treatment, family=quasibinomial, data=Hatch_48to96)
+summary(mod2_48to96)
+anova(mod2_48to96,test="F") 
 
-summary(  glht(mod2, linfct = mcp(Treatment = "Tukey"))  )
+#           Df Deviance Resid. Df Resid. Dev      F    Pr(>F)    
+# NULL                         28     3291.7                     
+# Treatment  4   2728.4        24      563.2 34.874 1.125e-09 ***
+  
+summary(  glht(mod2_48to96, linfct = mcp(Treatment = "Tukey"))  )
 
 #                        Estimate Std. Error z value Pr(>|z|)  
-#  SUB-84 - SUB-72 == 0   3.1636     1.2672   2.497   0.0321 *
-#  SUB-96 - SUB-72 == 0   3.8659     1.5711   2.461   0.0348 *
-#  SUB-96 - SUB-84 == 0   0.7022     1.9274   0.364   0.9269  
+# SUB-60 - SUB-48 == 0 7.705e-11  6.892e+03   0.000  1.00000   
+# SUB-72 - SUB-48 == 0 2.118e+01  5.090e+03   0.004  1.00000   
+# SUB-84 - SUB-48 == 0 2.434e+01  5.090e+03   0.005  1.00000   
+# SUB-96 - SUB-48 == 0 2.505e+01  5.090e+03   0.005  1.00000   
+# SUB-72 - SUB-60 == 0 2.118e+01  4.646e+03   0.005  1.00000   
+# SUB-84 - SUB-60 == 0 2.434e+01  4.646e+03   0.005  1.00000   
+# SUB-96 - SUB-60 == 0 2.505e+01  4.646e+03   0.005  1.00000   
+# SUB-84 - SUB-72 == 0 3.164e+00  1.002e+00   3.158  0.00856 **
+# SUB-96 - SUB-72 == 0 3.866e+00  1.242e+00   3.112  0.00995 **
+# SUB-96 - SUB-84 == 0 7.022e-01  1.524e+00   0.461  0.98673   
 
-# SUB-72 a 
-# SUB-84 b 
-# SUB-96 b 
+
 
 #---------------------------------------------------------------------------------------
 # II. Tadpole Length: Hatchling     
@@ -90,6 +114,7 @@ aggregate(Hatchling_72to96[,"TotLength"],
 ht1 <- glmmTMB(log(TotLength)~SubTreat, 
                family=gaussian(link="identity"), data=Hatchling_72to96)
 summary(ht1)
+Anova(ht1) 
 
 summary(  glht(ht1, linfct = mcp(SubTreat = "Tukey"))  )
 
@@ -123,6 +148,7 @@ aggregate(Tad144[,"TotLength"],
 tad1 <- glmmTMB(log(TotLength)~SubTreat, 
                 family=gaussian(link="identity"), data=Tad144)
 summary(tad1)
+Anova(tad1) 
 
 summary(  glht(tad1, linfct = mcp(SubTreat = "Tukey"))  )
 
@@ -135,7 +161,4 @@ summary(  glht(tad1, linfct = mcp(SubTreat = "Tukey"))  )
 #  SUB-96 - SUB-72 == 0   0.11076    0.02084   5.314   <0.001 ***
 #  SUB-96 - SUB-84 == 0   0.01330    0.02186   0.608    0.929    
 
-# SUB-72      a
-# SUB-84      b
-# SUB-96      b
-# SUB-Contral b
+
