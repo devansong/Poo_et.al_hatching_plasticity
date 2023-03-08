@@ -131,7 +131,7 @@ plotTry <- ggplot(subdf, aes(x=MinSinceSub, y=mean, color=Treatment)) +
   labs(y = paste0("Cumulative Proportion of", "\n", "Clutch Hatched (%)"))+ 
   xlab("Time Since Submergence (min)")+ 
   scale_x_continuous(breaks = round(seq(min(0), max(60), by = 5),1), limits=c(5,63))+
-  scale_y_continuous(breaks = round(seq(min(0), max(80), by = 20),1), limits=c(0,120))+
+  scale_y_continuous(breaks = round(seq(min(0), max(100), by = 20),1), limits=c(0,100))+
   theme(
     strip.background =  element_rect(fill = NA, colour = NA), 
     panel.background =  element_rect(fill = "white"), 
